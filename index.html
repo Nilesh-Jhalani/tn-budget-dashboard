@@ -392,28 +392,29 @@ function parseSheet(csv, cfg){
     const desc=String(row[cfg.desc]||'').trim();
     if(!desc||desc.length<2) continue;
 
-    // Budget: try current row first, then scan forward up to 20 rows
-    // until we hit the next integer S.No or find a non-zero section total
-    let budget = toNum(row[cfg.budget]);
-    let spent  = toNum(row[cfg.spent]);
-    let saved  = toNum(row[cfg.saved]);
+    // Scan forward until next main S.No row
+    // SUM all values in budget col (section-wise totals spread across sub-rows)
+    // Take LAST non-zero spent and saved (they appear on the summary sub-row)
+    let budget=toNum(row[cfg.budget]);
+    let spent=toNum(row[cfg.spent]);
+    let saved=toNum(row[cfg.saved]);
 
-    if(budget===0){
-      for(let j=i+1;j<Math.min(i+25,rows.length);j++){
-        const nr=rows[j]; if(!nr) continue;
-        // Stop if we hit next main S.No row
-        const nSno=String(nr[cfg.sno]||'').trim();
-        const nInt=parseInt(nSno,10);
-        if(!isNaN(nInt)&&nInt>snoInt&&String(nInt)===nSno) break;
-        // Pick up section total if non-zero
-        const nb=toNum(nr[cfg.budget]);
-        const ns=toNum(nr[cfg.spent]);
-        const nv=toNum(nr[cfg.saved]);
-        if(nb>0&&budget===0) budget=nb;
-        if(ns>0&&spent===0)  spent=ns;
-        if(nv>0&&saved===0)  saved=nv;
-        if(budget>0&&spent>=0&&saved>0) break;
-      }
+    for(let j=i+1;j<Math.min(i+40,rows.length);j++){
+      const nr=rows[j]; if(!nr) continue;
+      const nSno=String(nr[cfg.sno]||'').trim();
+      const nInt=parseInt(nSno,10);
+      // Stop at next main integer S.No
+      if(!isNaN(nInt)&&nInt>snoInt&&String(nInt)===nSno) break;
+
+      const nb=toNum(nr[cfg.budget]);
+      const ns=toNum(nr[cfg.spent]);
+      const nv=toNum(nr[cfg.saved]);
+
+      // SUM all section-wise budget values found in sub-rows
+      if(nb>0) budget+=nb;
+      // Take last non-zero spent/saved (final summary row)
+      if(ns>0) spent=ns;
+      if(nv>0) saved=nv;
     }
 
     out.push({sno:snoInt, desc, budget, spent, saved});
