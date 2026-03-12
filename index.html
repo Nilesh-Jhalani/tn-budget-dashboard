@@ -392,27 +392,32 @@ function parseSheet(csv, cfg){
     const desc=String(row[cfg.desc]||'').trim();
     if(!desc||desc.length<2) continue;
 
-    // Scan forward until next main S.No row
-    // SUM all values in budget col (section-wise totals spread across sub-rows)
-    // Take LAST non-zero spent and saved (they appear on the summary sub-row)
     let budget=toNum(row[cfg.budget]);
     let spent=toNum(row[cfg.spent]);
     let saved=toNum(row[cfg.saved]);
 
+    // Scan sub-rows forward to collect section-wise totals
     for(let j=i+1;j<Math.min(i+40,rows.length);j++){
       const nr=rows[j]; if(!nr) continue;
+
+      // Stop at next main integer S.No
       const nSno=String(nr[cfg.sno]||'').trim();
       const nInt=parseInt(nSno,10);
-      // Stop at next main integer S.No
       if(!isNaN(nInt)&&nInt>snoInt&&String(nInt)===nSno) break;
+
+      // Stop at "Total" row
+      const cellB=String(nr[0]||'').toLowerCase();
+      const cellC=String(nr[1]||'').toLowerCase();
+      const cellD=String(nr[2]||'').toLowerCase();
+      if(cellB.includes('total')||cellC.includes('total')||cellD.includes('total')) break;
 
       const nb=toNum(nr[cfg.budget]);
       const ns=toNum(nr[cfg.spent]);
       const nv=toNum(nr[cfg.saved]);
 
-      // SUM all section-wise budget values found in sub-rows
+      // SUM section-wise budget sub-totals
       if(nb>0) budget+=nb;
-      // Take last non-zero spent/saved (final summary row)
+      // Take last non-zero spent/saved
       if(ns>0) spent=ns;
       if(nv>0) saved=nv;
     }
