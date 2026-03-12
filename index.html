@@ -239,9 +239,9 @@ td.name{font-size:12px;font-weight:600;color:var(--text);white-space:normal;word
 // ── STATE CONFIG ─────────────────────────────────────────────────
 const SHEET_ID = '1YgW4W7f9DYj4aSG_F7nGluOibTAlRkvZBuIo7R4qeBA';
 const STATES = {
-  TN: { name:'Tamil Nadu',     gid:'142463253',  flag:'🏛️' },
-  PY: { name:'Puducherry',     gid:'1632349137', flag:'🌊' },
-  KL: { name:'Kerala',         gid:'1985256593', flag:'🌴' },
+  TN: { name:'Tamil Nadu', gid:'142463253',  flag:'🏛️', sno:2, desc:3, budget:10, spent:18, saved:19 },
+  PY: { name:'Puducherry', gid:'1632349137', flag:'🌊', sno:1, desc:2, budget:9,  spent:17, saved:18 },
+  KL: { name:'Kerala',     gid:'1985256593', flag:'🌴', sno:1, desc:2, budget:9,  spent:17, saved:18 },
 };
 
 // ── SAMPLE DATA (fallback) ───────────────────────────────────────
@@ -358,7 +358,7 @@ async function loadData(){
     if(!res.ok)throw new Error('HTTP '+res.status);
     const csv=await res.text();
     if(!csv||csv.length<50)throw new Error('Empty');
-    const parsed=parseSheet(csv);
+    const parsed=parseSheet(csv, STATES[code]);
     if(parsed.length===0)throw new Error('No rows found');
     CACHE[code]=parsed;
     if(ACTIVE===code){ DATA=parsed; render(false); }
@@ -379,40 +379,44 @@ async function loadData(){
 }
 
 // ── PARSE CSV ────────────────────────────────────────────────────
-// TN: S.No=col C(idx2), Desc=col D(idx3), SectionTotal=col K(idx10), Spent=col S(idx18), Saved=col T(idx19)
-// PY/KL: S.No=col B(idx1), Desc=col C(idx2), SectionTotal=col J(idx9), Spent=col R(idx17), Saved=col S(idx18)
-function parseSheet(csv){
+function parseSheet(csv, cfg){
   const rows=Papa.parse(csv,{skipEmptyLines:false}).data;
   const out=[];
 
-  // Auto-detect column layout by scanning first 10 rows for integer S.No
-  // Check if col B (idx1) or col C (idx2) has clean integers 1-12
-  let snoIdx=2, descIdx=3, secAmtIdx=10, spentIdx=18, savedIdx=19; // TN defaults
-  for(let i=0;i<Math.min(15,rows.length);i++){
-    const row=rows[i]; if(!row) continue;
-    const b=parseInt(String(row[1]||'').trim(),10);
-    const c=parseInt(String(row[2]||'').trim(),10);
-    if(!isNaN(b)&&b>=1&&b<=12&&String(b)===String(row[1]||'').trim()){
-      // S.No is in col B — PY/KL layout
-      snoIdx=1; descIdx=2; secAmtIdx=9; spentIdx=17; savedIdx=18;
-      break;
-    }
-    if(!isNaN(c)&&c>=1&&c<=12&&String(c)===String(row[2]||'').trim()){
-      // S.No is in col C — TN layout
-      snoIdx=2; descIdx=3; secAmtIdx=10; spentIdx=18; savedIdx=19;
-      break;
-    }
-  }
-
   for(let i=0;i<rows.length;i++){
     const row=rows[i]; if(!row||row.length<4) continue;
-    const snoRaw=String(row[snoIdx]||'').trim();
+    const snoRaw=String(row[cfg.sno]||'').trim();
     const snoInt=parseInt(snoRaw,10);
     if(isNaN(snoInt)||snoInt<1||snoInt>12) continue;
     if(String(snoInt)!==snoRaw) continue;
-    const desc=String(row[descIdx]||'').trim();
+    const desc=String(row[cfg.desc]||'').trim();
     if(!desc||desc.length<2) continue;
-    out.push({sno:snoInt,desc,budget:toNum(row[secAmtIdx]),spent:toNum(row[spentIdx]),saved:toNum(row[savedIdx])});
+
+    // Budget: try current row first, then scan forward up to 20 rows
+    // until we hit the next integer S.No or find a non-zero section total
+    let budget = toNum(row[cfg.budget]);
+    let spent  = toNum(row[cfg.spent]);
+    let saved  = toNum(row[cfg.saved]);
+
+    if(budget===0){
+      for(let j=i+1;j<Math.min(i+25,rows.length);j++){
+        const nr=rows[j]; if(!nr) continue;
+        // Stop if we hit next main S.No row
+        const nSno=String(nr[cfg.sno]||'').trim();
+        const nInt=parseInt(nSno,10);
+        if(!isNaN(nInt)&&nInt>snoInt&&String(nInt)===nSno) break;
+        // Pick up section total if non-zero
+        const nb=toNum(nr[cfg.budget]);
+        const ns=toNum(nr[cfg.spent]);
+        const nv=toNum(nr[cfg.saved]);
+        if(nb>0&&budget===0) budget=nb;
+        if(ns>0&&spent===0)  spent=ns;
+        if(nv>0&&saved===0)  saved=nv;
+        if(budget>0&&spent>=0&&saved>0) break;
+      }
+    }
+
+    out.push({sno:snoInt, desc, budget, spent, saved});
   }
   return out.sort((a,b)=>a.sno-b.sno);
 }
