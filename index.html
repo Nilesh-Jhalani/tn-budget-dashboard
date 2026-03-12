@@ -20,8 +20,71 @@
   --shadow-hover:0 14px 32px rgba(0,0,0,.13),0 6px 12px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.95);
   --ff:'Inter',sans-serif;
 }
-html,body{height:100%;font-family:var(--ff);background:var(--bg);color:var(--text);font-size:13px;overflow:hidden;}
-.shell{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+html,body{height:100%;font-family:var(--ff);background:var(--bg);color:var(--text);font-size:13px;}
+
+/* ── LOGIN PAGE ── */
+.login-page{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  background:linear-gradient(135deg,#f0f4ff 0%,#e8edf8 50%,#f0f2f8 100%);
+}
+.login-card{
+  background:var(--white);
+  border-radius:20px;
+  padding:48px 44px;
+  width:100%;max-width:420px;
+  box-shadow:0 20px 60px rgba(0,0,0,.12),0 8px 20px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.9);
+  border:1px solid var(--border);
+  text-align:center;
+}
+.login-logo{
+  width:56px;height:56px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:800;color:#fff;
+  margin:0 auto 20px;
+  box-shadow:0 8px 20px rgba(37,99,235,.35);
+}
+.login-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--text3);margin-bottom:32px;}
+.login-label{display:block;text-align:left;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+.login-input{
+  width:100%;padding:12px 16px;
+  background:#f5f7ff;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  font-family:var(--ff);font-size:14px;color:var(--text);
+  outline:none;transition:all .15s;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.04);
+}
+.login-input:focus{border-color:var(--blue);box-shadow:inset 0 2px 4px rgba(0,0,0,.04),0 0 0 3px rgba(37,99,235,.1);}
+.login-input::placeholder{color:var(--text3);}
+.login-btn{
+  width:100%;padding:13px;
+  background:linear-gradient(135deg,var(--blue),#1d4ed8);
+  color:#fff;border:none;border-radius:10px;
+  font-family:var(--ff);font-size:14px;font-weight:700;
+  cursor:pointer;margin-top:20px;
+  transition:all .18s;
+  box-shadow:0 4px 14px rgba(37,99,235,.35),inset 0 1px 0 rgba(255,255,255,.2);
+}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,99,235,.4);}
+.login-btn:active{transform:translateY(0);}
+.login-btn:disabled{opacity:.6;pointer-events:none;}
+.login-err{
+  margin-top:14px;padding:10px 14px;
+  background:var(--red-light);border:1px solid rgba(220,38,38,.2);
+  border-radius:8px;font-size:12px;color:var(--red);
+  display:none;
+}
+.login-checking{
+  margin-top:14px;font-size:12px;color:var(--text3);
+  display:none;
+}
+
+/* ── DASHBOARD (hidden until login) ── */
+.dashboard{display:none;flex-direction:column;height:100vh;overflow:hidden;}
 
 /* NAV */
 nav{flex-shrink:0;height:54px;background:var(--white);border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;padding:0 28px;gap:16px;position:relative;z-index:10;}
@@ -30,59 +93,36 @@ nav{flex-shrink:0;height:54px;background:var(--white);border-bottom:1px solid va
 .nav-title{font-size:14px;font-weight:700;color:var(--text);}
 .nav-sub{font-size:10px;color:var(--text3);}
 .nav-r{display:flex;align-items:center;gap:10px;}
-.live-pill{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--green);background:var(--green-light);border:1px solid rgba(5,150,105,.2);padding:4px 11px;border-radius:99px;box-shadow:0 1px 3px rgba(5,150,105,.15);}
+.live-pill{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--green);background:var(--green-light);border:1px solid rgba(5,150,105,.2);padding:4px 11px;border-radius:99px;}
 .live-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
 .lupd{font-size:10px;color:var(--text3);}
+.user-chip{display:flex;align-items:center;gap:7px;padding:5px 12px 5px 5px;background:#f5f7ff;border:1px solid var(--border);border-radius:99px;font-size:11px;font-weight:600;color:var(--text2);}
+.user-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;}
+.logout-btn{padding:6px 14px;background:transparent;border:1px solid var(--border);border-radius:8px;font-family:var(--ff);font-size:11px;font-weight:600;color:var(--text3);cursor:pointer;transition:all .15s;}
+.logout-btn:hover{border-color:var(--red);color:var(--red);background:var(--red-light);}
 .rbtn{display:flex;align-items:center;gap:6px;padding:8px 18px;background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff;border:none;border-radius:9px;font-family:var(--ff);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;box-shadow:0 4px 12px rgba(37,99,235,.35),inset 0 1px 0 rgba(255,255,255,.2);}
-.rbtn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,99,235,.4);}
-.rbtn:active{transform:translateY(0);}
+.rbtn:hover{transform:translateY(-2px);}
 .rbtn.spin{opacity:.7;pointer-events:none;}
 .rbtn.spin .ri{animation:spin .7s linear infinite;}
 .ri{display:inline-block;}
 
 /* STATE TABS */
-.tabs-bar{
-  flex-shrink:0;
-  background:var(--white);
-  border-bottom:1px solid var(--border);
-  padding:0 28px;
-  display:flex;align-items:center;gap:4px;
-  box-shadow:0 2px 6px rgba(0,0,0,.04);
-}
-.tab{
-  display:flex;align-items:center;gap:8px;
-  padding:12px 20px;
-  font-size:13px;font-weight:600;
-  color:var(--text3);
-  border:none;background:transparent;
-  cursor:pointer;
-  border-bottom:3px solid transparent;
-  transition:all .15s;
-  font-family:var(--ff);
-}
+.tabs-bar{flex-shrink:0;background:var(--white);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;gap:4px;box-shadow:0 2px 6px rgba(0,0,0,.04);}
+.tab{display:flex;align-items:center;gap:8px;padding:12px 20px;font-size:13px;font-weight:600;color:var(--text3);border:none;background:transparent;cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;font-family:var(--ff);}
 .tab:hover{color:var(--text2);}
 .tab.active{color:var(--blue);border-bottom-color:var(--blue);}
-.tab-flag{font-size:16px;}
-.tab-badge{
-  font-size:9px;font-weight:700;
-  padding:2px 7px;border-radius:99px;
-  background:var(--blue-light);color:var(--blue);
-  border:1px solid rgba(37,99,235,.2);
-}
+.tab-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--blue-light);color:var(--blue);border:1px solid rgba(37,99,235,.2);}
 .tab.active .tab-badge{background:var(--blue);color:#fff;}
 
 /* BODY */
 .body{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:14px 28px 12px;gap:12px;}
-
-/* BANNER */
-.banner{flex-shrink:0;display:none;align-items:center;gap:8px;padding:7px 14px;border-radius:8px;font-size:11px;border:1px solid;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.banner{flex-shrink:0;display:none;align-items:center;gap:8px;padding:7px 14px;border-radius:8px;font-size:11px;border:1px solid;}
 .banner.ok{background:#ecfdf5;border-color:rgba(5,150,105,.25);color:#065f46;}
-.banner.err{background:#fff1f2;border-color:rgba(220,38,38,.25);color:#991b1b;}
 .banner.info{background:#eff6ff;border-color:rgba(37,99,235,.25);color:#1e40af;}
 
 /* METRIC CARDS */
 .mcards{flex-shrink:0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-.mc{background:var(--white);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden;cursor:default;border:1px solid var(--border);box-shadow:var(--shadow-3d);transition:transform .2s ease,box-shadow .2s ease;}
+.mc{background:var(--white);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden;cursor:default;border:1px solid var(--border);box-shadow:var(--shadow-3d);transition:transform .2s,box-shadow .2s;}
 .mc:hover{transform:translateY(-4px) scale(1.01);box-shadow:var(--shadow-hover);}
 .mc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--mc-line);border-radius:14px 14px 0 0;}
 .mc::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,rgba(255,255,255,.6) 0%,rgba(255,255,255,0) 60%);pointer-events:none;border-radius:14px;}
@@ -98,48 +138,63 @@ nav{flex-shrink:0;height:54px;background:var(--white);border-bottom:1px solid va
 .thead{flex-shrink:0;padding:12px 18px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(to bottom,#fafbff,#ffffff);}
 .thead-title{font-size:13px;font-weight:700;color:var(--text);}
 .thead-sub{font-size:10px;color:var(--text3);margin-top:2px;}
-.search{padding:7px 12px;background:#f5f7ff;border:1px solid var(--border);border-radius:8px;font-family:var(--ff);font-size:12px;color:var(--text);width:200px;outline:none;box-shadow:inset 0 2px 4px rgba(0,0,0,.04);transition:border-color .15s,box-shadow .15s;}
+.search{padding:7px 12px;background:#f5f7ff;border:1px solid var(--border);border-radius:8px;font-family:var(--ff);font-size:12px;color:var(--text);width:200px;outline:none;transition:border-color .15s;}
 .search::placeholder{color:var(--text3);}
-.search:focus{border-color:var(--blue);box-shadow:inset 0 2px 4px rgba(0,0,0,.04),0 0 0 3px rgba(37,99,235,.1);}
+.search:focus{border-color:var(--blue);}
 .tscroll{flex:1;overflow-y:auto;overflow-x:hidden;}
 .tscroll::-webkit-scrollbar{width:5px;}
-.tscroll::-webkit-scrollbar-track{background:#f5f7ff;}
 .tscroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px;}
 table{width:100%;border-collapse:collapse;table-layout:fixed;}
-col.c-sno{width:54px;}
-col.c-desc{width:22%;}
-col.c-num{width:13%;}
-col.c-prog{width:16%;}
-col.c-stat{width:11%;}
-thead th{background:linear-gradient(to bottom,#f5f7ff,#eef1fb);padding:9px 14px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;z-index:2;box-shadow:0 1px 3px rgba(0,0,0,.04);}
-th.r{text-align:right;white-space:nowrap;}
-td.r{text-align:right;white-space:nowrap;}
+col.c-sno{width:54px;}col.c-desc{width:22%;}col.c-num{width:13%;}col.c-prog{width:16%;}col.c-stat{width:11%;}
+thead th{background:linear-gradient(to bottom,#f5f7ff,#eef1fb);padding:9px 14px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;z-index:2;}
+th.r{text-align:right;white-space:nowrap;}td.r{text-align:right;white-space:nowrap;}
 tbody tr{border-bottom:1px solid #f0f2fa;transition:all .12s;}
 tbody tr:last-child{border-bottom:none;}
 tbody tr:hover{background:linear-gradient(to right,#f5f8ff,#fafbff);box-shadow:inset 3px 0 0 var(--blue);}
 td{padding:10px 14px;vertical-align:middle;font-size:12px;color:var(--text2);}
 td.name{font-size:12px;font-weight:600;color:var(--text);white-space:normal;word-break:break-word;line-height:1.4;}
 .total-row td{background:linear-gradient(to right,#eff4ff,#f5f7ff);font-weight:700;font-size:12px;color:var(--text);border-top:2px solid var(--border2);}
-.snob{display:inline-flex;align-items:center;justify-content:center;width:28px;height:24px;border-radius:7px;font-size:11px;font-weight:700;box-shadow:0 2px 5px var(--snob-shadow),inset 0 1px 0 rgba(255,255,255,.4);}
+.snob{display:inline-flex;align-items:center;justify-content:center;width:28px;height:24px;border-radius:7px;font-size:11px;font-weight:700;}
 .prog{display:flex;align-items:center;gap:7px;}
 .ptrack{flex:1;height:6px;background:#eef1fb;border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.08);}
 .pfill{height:100%;border-radius:99px;transition:width .8s ease;}
 .ppct{font-size:11px;font-weight:700;min-width:34px;text-align:right;}
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:99px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:99px;white-space:nowrap;}
 .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;}
 .badge.green{background:var(--green-light);color:var(--green);border:1px solid rgba(5,150,105,.2);}
 .badge.amber{background:var(--amber-light);color:var(--amber);border:1px solid rgba(217,119,6,.2);}
 .badge.red{background:var(--red-light);color:var(--red);border:1px solid rgba(220,38,38,.2);}
 .badge.gray{background:#f5f7ff;color:var(--text3);border:1px solid var(--border);}
 
+/* NO ACCESS */
+.no-access{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;color:var(--text3);}
+.no-access-icon{font-size:48px;}
+.no-access-title{font-size:16px;font-weight:700;color:var(--text2);}
+.no-access-sub{font-size:13px;}
+
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 </style>
 </head>
 <body>
-<div class="shell">
 
-  <!-- NAV -->
+<!-- ── LOGIN PAGE ── -->
+<div class="login-page" id="loginPage">
+  <div class="login-card">
+    <div class="login-logo">OH</div>
+    <div class="login-title">Budget Dashboard 2026</div>
+    <div class="login-sub">Communications OH · Enter your email to access</div>
+    <label class="login-label">Your Email Address</label>
+    <input class="login-input" type="email" id="loginEmail" placeholder="yourname@example.com" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">Continue →</button>
+    <div class="login-err" id="loginErr"></div>
+    <div class="login-checking" id="loginChecking">⏳ Checking access…</div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div class="dashboard" id="dashboard">
+
   <nav>
     <div class="nav-l">
       <div class="logo">OH</div>
@@ -151,28 +206,19 @@ td.name{font-size:12px;font-weight:600;color:var(--text);white-space:normal;word
     <div class="nav-r">
       <div class="live-pill"><span class="dot"></span><span id="livepill">Live</span></div>
       <span class="lupd" id="lupd">—</span>
+      <div class="user-chip">
+        <div class="user-avatar" id="userAvatar">N</div>
+        <span id="userName">User</span>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Logout</button>
       <button class="rbtn" id="rbtn" onclick="loadData()"><span class="ri">↻</span> Refresh</button>
     </div>
   </nav>
 
-  <!-- STATE TABS -->
-  <div class="tabs-bar">
-    <button class="tab active" onclick="switchState('TN')" id="tab-TN">
-      <span class="tab-flag">🏛️</span> Tamil Nadu <span class="tab-badge">TN</span>
-    </button>
-    <button class="tab" onclick="switchState('PY')" id="tab-PY">
-      <span class="tab-flag">🌊</span> Puducherry <span class="tab-badge">PY</span>
-    </button>
-    <button class="tab" onclick="switchState('KL')" id="tab-KL">
-      <span class="tab-flag">🌴</span> Kerala <span class="tab-badge">KL</span>
-    </button>
-  </div>
+  <div class="tabs-bar" id="tabsBar"></div>
 
   <div class="body">
-
     <div id="banner" class="banner"><span id="btxt"></span></div>
-
-    <!-- METRIC CARDS -->
     <div class="mcards">
       <div class="mc" style="--mc-line:linear-gradient(90deg,#2563eb,#7c3aed);--mc-color:#2563eb;--mc-ibg:#eff4ff;--mc-iborder:rgba(37,99,235,.2);--mc-ishadow:rgba(37,99,235,.2)">
         <div class="mc-top"><div class="mc-label">Total Budget</div><div class="mc-icon">📊</div></div>
@@ -197,8 +243,6 @@ td.name{font-size:12px;font-weight:600;color:var(--text);white-space:normal;word
         <div class="mc-sub" id="m4s">of total budget</div>
       </div>
     </div>
-
-    <!-- TABLE -->
     <div class="tcard">
       <div class="thead">
         <div>
@@ -209,85 +253,25 @@ td.name{font-size:12px;font-weight:600;color:var(--text);white-space:normal;word
       </div>
       <div class="tscroll">
         <table>
-          <colgroup>
-            <col class="c-sno"><col class="c-desc">
-            <col class="c-num"><col class="c-num"><col class="c-num">
-            <col class="c-prog"><col class="c-stat">
-          </colgroup>
-          <thead>
-            <tr>
-              <th>S.No</th>
-              <th>Description</th>
-              <th class="r">Total Budget</th>
-              <th class="r">Spent W/O GST</th>
-              <th class="r">Not Spent W/O GST</th>
-              <th>Utilisation</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="tbody">
-            <tr><td colspan="7" style="text-align:center;padding:30px;color:#9298b5">Loading…</td></tr>
-          </tbody>
+          <colgroup><col class="c-sno"><col class="c-desc"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-prog"><col class="c-stat"></colgroup>
+          <thead><tr><th>S.No</th><th>Description</th><th class="r">Total Budget</th><th class="r">Spent W/O GST</th><th class="r">Not Spent W/O GST</th><th>Utilisation</th><th>Status</th></tr></thead>
+          <tbody id="tbody"><tr><td colspan="7" style="text-align:center;padding:30px;color:#9298b5">Loading…</td></tr></tbody>
         </table>
       </div>
     </div>
-
   </div>
 </div>
 
 <script>
-// ── STATE CONFIG ─────────────────────────────────────────────────
+// ── CONFIG ───────────────────────────────────────────────────────
 const SHEET_ID = '1YgW4W7f9DYj4aSG_F7nGluOibTAlRkvZBuIo7R4qeBA';
-const STATES = {
+const USERS_GID = '1338822933';
+const USERS_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${USERS_GID}`;
+
+const ALL_STATES = {
   TN: { name:'Tamil Nadu', gid:'142463253',  flag:'🏛️', sno:2, desc:3, budget:10, spent:18, saved:19 },
   PY: { name:'Puducherry', gid:'1632349137', flag:'🌊', sno:1, desc:2, budget:9,  spent:17, saved:18 },
   KL: { name:'Kerala',     gid:'1985256593', flag:'🌴', sno:1, desc:2, budget:9,  spent:17, saved:18 },
-};
-
-// ── SAMPLE DATA (fallback) ───────────────────────────────────────
-const SAMPLE = {
-  TN:[
-    {sno:1, desc:'OCC (VoxPop + Third Party Pages)',          budget:2700000,  spent:20000,   saved:2680000},
-    {sno:2, desc:'Influencer Management',                     budget:49975000, spent:1200000, saved:48775000},
-    {sno:3, desc:'Growth and Promotions',                     budget:35000000, spent:256166,  saved:34743834},
-    {sno:4, desc:'TVCs',                                      budget:24500000, spent:0,       saved:24500000},
-    {sno:5, desc:'AI Content Creation',                       budget:1350000,  spent:0,       saved:1350000},
-    {sno:6, desc:'Vendor Third Party Pages',                  budget:2100000,  spent:0,       saved:2100000},
-    {sno:7, desc:'Digital Media Amplification',               budget:1800000,  spent:0,       saved:1800000},
-    {sno:8, desc:'Videos for each AC – Overhead ₹50k/AC',    budget:2500000,  spent:0,       saved:2500000},
-    {sno:9, desc:'SMCC',                                      budget:19982190, spent:0,       saved:19982190},
-    {sno:10,desc:'Song & Music Production',                   budget:2000000,  spent:75000,   saved:1925000},
-    {sno:11,desc:'Reporters Network & Stringers',             budget:1200000,  spent:0,       saved:1200000},
-    {sno:12,desc:'Telecom Ads',                               budget:1500000,  spent:0,       saved:1500000},
-  ],
-  PY:[
-    {sno:1, desc:'OCC (VoxPop + Third Party Pages)',          budget:840000,   spent:205000,  saved:635000},
-    {sno:2, desc:'Influencer Management',                     budget:7860300,  spent:530000,  saved:7330300},
-    {sno:3, desc:'Growth and Promotions',                     budget:2800000,  spent:1685763, saved:4814237},
-    {sno:4, desc:'TVCs',                                      budget:0,        spent:0,       saved:0},
-    {sno:5, desc:'AI Content Creation',                       budget:0,        spent:0,       saved:0},
-    {sno:6, desc:'Vendor Third Party Pages',                  budget:0,        spent:0,       saved:0},
-    {sno:7, desc:'Digital Media Amplification',               budget:0,        spent:0,       saved:0},
-    {sno:8, desc:'Videos for each AC – Overhead ₹50k/AC',    budget:0,        spent:0,       saved:0},
-    {sno:9, desc:'SMCC',                                      budget:0,        spent:0,       saved:0},
-    {sno:10,desc:'Song & Music Production',                   budget:0,        spent:0,       saved:0},
-    {sno:11,desc:'Reporters Network & Stringers',             budget:0,        spent:0,       saved:0},
-    {sno:12,desc:'Telecom Ads',                               budget:0,        spent:0,       saved:0},
-  ],
-  KL:[
-    {sno:1, desc:'OCC (Voxpop + B Rolls)',                    budget:1800000,  spent:0,       saved:1800000},
-    {sno:2, desc:'Influencer Management',                     budget:7140000,  spent:5500,    saved:7134500},
-    {sno:3, desc:'Growth and Promotions',                     budget:5000000,  spent:18750,   saved:12011250},
-    {sno:4, desc:'TVCs',                                      budget:0,        spent:0,       saved:0},
-    {sno:5, desc:'AI Content Creation',                       budget:0,        spent:0,       saved:0},
-    {sno:6, desc:'Vendor Third Party Pages',                  budget:0,        spent:0,       saved:0},
-    {sno:7, desc:'Digital Media Amplification',               budget:0,        spent:0,       saved:0},
-    {sno:8, desc:'Videos for each AC – Overhead ₹50k/AC',    budget:0,        spent:0,       saved:0},
-    {sno:9, desc:'SMCC',                                      budget:0,        spent:0,       saved:0},
-    {sno:10,desc:'Song & Music Production',                   budget:0,        spent:0,       saved:0},
-    {sno:11,desc:'Reporters Network & Stringers',             budget:0,        spent:0,       saved:0},
-    {sno:12,desc:'Telecom Ads',                               budget:0,        spent:0,       saved:0},
-  ],
 };
 
 const COLORS=[
@@ -305,9 +289,11 @@ const COLORS=[
   {bg:'#fefce8',color:'#ca8a04',border:'rgba(202,138,4,.25)',shadow:'rgba(202,138,4,.2)'},
 ];
 
-let ACTIVE = 'TN';
-let CACHE  = {};  // cache loaded data per state
+let ACTIVE = null;
+let CACHE  = {};
 let DATA   = [];
+let CURRENT_USER = null;
+let ALLOWED_STATES = {};
 
 // ── FORMATTERS ───────────────────────────────────────────────────
 const INR=n=>{
@@ -322,28 +308,141 @@ const toNum=v=>{if(!v&&v!==0)return 0;const s=String(v).replace(/[₹,\s]/g,'').
 const showB=(msg,type)=>{const b=document.getElementById('banner');b.className='banner '+type;b.style.display='flex';document.getElementById('btxt').innerHTML=msg;};
 const hideB=()=>{document.getElementById('banner').style.display='none';};
 
+// ── LOGIN ────────────────────────────────────────────────────────
+async function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  if(!email || !email.includes('@')){
+    showLoginErr('Please enter a valid email address.');
+    return;
+  }
+  document.getElementById('loginBtn').disabled = true;
+  document.getElementById('loginErr').style.display = 'none';
+  document.getElementById('loginChecking').style.display = 'block';
+
+  try {
+    const res = await fetch(USERS_URL+'&t='+Date.now());
+    if(!res.ok) throw new Error('Could not load user list');
+    const csv = await res.text();
+    const rows = Papa.parse(csv, {header:true, skipEmptyLines:true}).data;
+
+    // Find user by email (case insensitive)
+    const user = rows.find(r => (r.email||'').trim().toLowerCase() === email);
+
+    if(!user){
+      showLoginErr('Access denied. Your email is not registered. Please contact the admin.');
+      return;
+    }
+
+    // Store user info
+    CURRENT_USER = { email, name: user.name || email.split('@')[0] };
+    ALLOWED_STATES = {
+      TN: String(user.TN||'').trim().toUpperCase() === 'TRUE',
+      PY: String(user.PY||'').trim().toUpperCase() === 'TRUE',
+      KL: String(user.KL||'').trim().toUpperCase() === 'TRUE',
+    };
+
+    // Check if user has at least one state
+    if(!ALLOWED_STATES.TN && !ALLOWED_STATES.PY && !ALLOWED_STATES.KL){
+      showLoginErr('No state access assigned. Please contact the admin.');
+      return;
+    }
+
+    // Save session
+    sessionStorage.setItem('cbUser', JSON.stringify({email, name:CURRENT_USER.name, states:ALLOWED_STATES}));
+
+    showDashboard();
+
+  } catch(e) {
+    showLoginErr('Error checking access: '+e.message+'. Please try again.');
+  } finally {
+    document.getElementById('loginBtn').disabled = false;
+    document.getElementById('loginChecking').style.display = 'none';
+  }
+}
+
+function showLoginErr(msg){
+  const el = document.getElementById('loginErr');
+  el.textContent = msg;
+  el.style.display = 'block';
+  document.getElementById('loginChecking').style.display = 'none';
+  document.getElementById('loginBtn').disabled = false;
+}
+
+function doLogout(){
+  sessionStorage.removeItem('cbUser');
+  CURRENT_USER = null;
+  ALLOWED_STATES = {};
+  ACTIVE = null;
+  CACHE = {};
+  DATA = [];
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginErr').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'flex';
+}
+
+// ── SHOW DASHBOARD ───────────────────────────────────────────────
+function showDashboard(){
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'flex';
+
+  // Set user info in nav
+  const initials = CURRENT_USER.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('userAvatar').textContent = initials;
+  document.getElementById('userName').textContent = CURRENT_USER.name;
+
+  // Build tabs for allowed states only
+  const tabsBar = document.getElementById('tabsBar');
+  tabsBar.innerHTML = '';
+  Object.entries(ALL_STATES).forEach(([code, state]) => {
+    if(!ALLOWED_STATES[code]) return;
+    const btn = document.createElement('button');
+    btn.className = 'tab';
+    btn.id = 'tab-'+code;
+    btn.innerHTML = `<span>${state.flag}</span> ${state.name} <span class="tab-badge">${code}</span>`;
+    btn.onclick = () => switchState(code);
+    tabsBar.appendChild(btn);
+  });
+
+  // Switch to first allowed state
+  const firstState = Object.keys(ALL_STATES).find(c => ALLOWED_STATES[c]);
+  if(firstState) switchState(firstState);
+}
+
+// ── CHECK SESSION ON LOAD ────────────────────────────────────────
+function checkSession(){
+  const saved = sessionStorage.getItem('cbUser');
+  if(saved){
+    try {
+      const u = JSON.parse(saved);
+      CURRENT_USER = { email: u.email, name: u.name };
+      ALLOWED_STATES = u.states;
+      showDashboard();
+      return;
+    } catch(e){}
+  }
+  document.getElementById('loginPage').style.display = 'flex';
+}
+
 // ── SWITCH STATE ─────────────────────────────────────────────────
 function switchState(code){
   ACTIVE = code;
-  // Update tabs
-  ['TN','PY','KL'].forEach(s=>{
-    document.getElementById('tab-'+s).classList.toggle('active', s===code);
-  });
-  // Update nav subtitle
-  document.getElementById('nav-state').textContent = STATES[code].name;
-  // Update table title
-  document.getElementById('table-title').textContent = STATES[code].name+' — Service-wise Budget Tracker FY 2026';
-  // Clear search
-  document.getElementById('searchbox').value='';
-  // Use cache if available, else load
-  if(CACHE[code]){
-    DATA = CACHE[code];
-    render(false);
-  } else {
-    DATA = SAMPLE[code].filter(r=>r.budget>0||r.spent>0);
-    render(true);
-    loadData();
-  }
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const tab = document.getElementById('tab-'+code);
+  if(tab) tab.classList.add('active');
+  document.getElementById('nav-state').textContent = ALL_STATES[code].name;
+  document.getElementById('table-title').textContent = ALL_STATES[code].name+' — Service-wise Budget Tracker FY 2026';
+  document.getElementById('searchbox').value = '';
+  if(CACHE[code]){ DATA=CACHE[code]; render(false); }
+  else { DATA=[]; renderEmpty(); loadData(); }
+}
+
+function renderEmpty(){
+  document.getElementById('m1').textContent='—';
+  document.getElementById('m2').textContent='—';
+  document.getElementById('m3').textContent='—';
+  document.getElementById('m4').textContent='—';
+  document.getElementById('tbody').innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;color:#9298b5">Loading…</td></tr>';
 }
 
 // ── FETCH LIVE ───────────────────────────────────────────────────
@@ -351,78 +450,58 @@ async function loadData(){
   const btn=document.getElementById('rbtn');
   btn.classList.add('spin');
   document.getElementById('lupd').textContent='Syncing…';
-  const code = ACTIVE;
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${STATES[code].gid}&t=${Date.now()}`;
+  const code=ACTIVE;
+  const cfg=ALL_STATES[code];
+  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${cfg.gid}&t=${Date.now()}`;
   try{
     const res=await fetch(url);
     if(!res.ok)throw new Error('HTTP '+res.status);
     const csv=await res.text();
     if(!csv||csv.length<50)throw new Error('Empty');
-    const parsed=parseSheet(csv, STATES[code]);
+    const parsed=parseSheet(csv,cfg);
     if(parsed.length===0)throw new Error('No rows found');
     CACHE[code]=parsed;
-    if(ACTIVE===code){ DATA=parsed; render(false); }
+    if(ACTIVE===code){DATA=parsed;render(false);}
     document.getElementById('livepill').textContent='Live';
     document.getElementById('lupd').textContent='Updated '+new Date().toLocaleTimeString();
-    showB('✓ '+STATES[code].name+' live data loaded — '+parsed.length+' services.','ok');
+    showB('✓ '+cfg.name+' live data loaded — '+parsed.length+' services.','ok');
     setTimeout(hideB,4000);
   }catch(e){
-    if(ACTIVE===code){
-      DATA=SAMPLE[code].filter(r=>r.budget>0||r.spent>0);
-      render(true);
-    }
-    document.getElementById('livepill').textContent='Sample';
-    document.getElementById('lupd').textContent='Sample · retrying…';
-    showB('Showing sample data for '+STATES[code].name+'. Retrying in 30s. ('+e.message+')','info');
+    document.getElementById('livepill').textContent='Offline';
+    document.getElementById('lupd').textContent='Retrying…';
+    showB('Could not load live data. Retrying in 30s. ('+e.message+')','info');
     setTimeout(loadData,30000);
   }finally{btn.classList.remove('spin');}
 }
 
-// ── PARSE CSV ────────────────────────────────────────────────────
-function parseSheet(csv, cfg){
+// ── PARSE ────────────────────────────────────────────────────────
+function parseSheet(csv,cfg){
   const rows=Papa.parse(csv,{skipEmptyLines:false}).data;
   const out=[];
-
   for(let i=0;i<rows.length;i++){
-    const row=rows[i]; if(!row||row.length<4) continue;
+    const row=rows[i];if(!row||row.length<4)continue;
     const snoRaw=String(row[cfg.sno]||'').trim();
     const snoInt=parseInt(snoRaw,10);
-    if(isNaN(snoInt)||snoInt<1||snoInt>12) continue;
-    if(String(snoInt)!==snoRaw) continue;
+    if(isNaN(snoInt)||snoInt<1||snoInt>12)continue;
+    if(String(snoInt)!==snoRaw)continue;
     const desc=String(row[cfg.desc]||'').trim();
-    if(!desc||desc.length<2) continue;
-
-    let budget=toNum(row[cfg.budget]);
-    let spent=toNum(row[cfg.spent]);
-    let saved=toNum(row[cfg.saved]);
-
-    // Scan sub-rows forward to collect section-wise totals
+    if(!desc||desc.length<2)continue;
+    let budget=toNum(row[cfg.budget]),spent=toNum(row[cfg.spent]),saved=toNum(row[cfg.saved]);
     for(let j=i+1;j<Math.min(i+40,rows.length);j++){
-      const nr=rows[j]; if(!nr) continue;
-
-      // Stop at next main integer S.No
+      const nr=rows[j];if(!nr)continue;
       const nSno=String(nr[cfg.sno]||'').trim();
       const nInt=parseInt(nSno,10);
-      if(!isNaN(nInt)&&nInt>snoInt&&String(nInt)===nSno) break;
-
-      // Stop at "Total" row
+      if(!isNaN(nInt)&&nInt>snoInt&&String(nInt)===nSno)break;
       const cellB=String(nr[0]||'').toLowerCase();
       const cellC=String(nr[1]||'').toLowerCase();
       const cellD=String(nr[2]||'').toLowerCase();
-      if(cellB.includes('total')||cellC.includes('total')||cellD.includes('total')) break;
-
-      const nb=toNum(nr[cfg.budget]);
-      const ns=toNum(nr[cfg.spent]);
-      const nv=toNum(nr[cfg.saved]);
-
-      // SUM section-wise budget sub-totals
-      if(nb>0) budget+=nb;
-      // Take last non-zero spent/saved
-      if(ns>0) spent=ns;
-      if(nv>0) saved=nv;
+      if(cellB.includes('total')||cellC.includes('total')||cellD.includes('total'))break;
+      const nb=toNum(nr[cfg.budget]),ns=toNum(nr[cfg.spent]),nv=toNum(nr[cfg.saved]);
+      if(nb>0)budget+=nb;
+      if(ns>0)spent=ns;
+      if(nv>0)saved=nv;
     }
-
-    out.push({sno:snoInt, desc, budget, spent, saved});
+    out.push({sno:snoInt,desc,budget,spent,saved});
   }
   return out.sort((a,b)=>a.sno-b.sno);
 }
@@ -430,8 +509,8 @@ function parseSheet(csv, cfg){
 // ── RENDER ───────────────────────────────────────────────────────
 function render(isSample){
   const tb=DATA.reduce((s,r)=>s+r.budget,0);
-  const sp=DATA.reduce((s,r)=>s+r.spent, 0);
-  const sv=DATA.reduce((s,r)=>s+r.saved, 0);
+  const sp=DATA.reduce((s,r)=>s+r.spent,0);
+  const sv=DATA.reduce((s,r)=>s+r.saved,0);
   const pct=tb>0?sp/tb*100:0;
   document.getElementById('m1').textContent=INR(tb);
   document.getElementById('m2').textContent=INR(sp);
@@ -439,22 +518,19 @@ function render(isSample){
   document.getElementById('m3').textContent=INR(sv);
   document.getElementById('m3s').textContent=(100-pct).toFixed(2)+'% remaining';
   document.getElementById('m4').textContent=pct.toFixed(2)+'%';
-  document.getElementById('m4s').textContent=pct<5?'Early stage — very low':pct<30?'Low utilisation':pct<70?'Moderate':'High';
+  document.getElementById('m4s').textContent=pct<5?'Early stage':pct<30?'Low utilisation':pct<70?'Moderate':'High';
   document.getElementById('table-sub').textContent=isSample?'Sample data':'Live data · auto-synced';
   buildTable(DATA,'');
 }
 
 // ── TABLE ────────────────────────────────────────────────────────
 function buildTable(rows,query){
-  const tbody=document.getElementById('tbody');
-  tbody.innerHTML='';
+  const tbody=document.getElementById('tbody');tbody.innerHTML='';
   const q=query.toLowerCase().trim();
   const list=q?rows.filter(r=>r.desc.toLowerCase().includes(q)||String(r.sno).includes(q)):rows;
   if(!list.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:#9298b5">No services match.</td></tr>';return;}
-
   list.forEach(r=>{
-    const ci=(r.sno-1)%COLORS.length;
-    const c=COLORS[ci];
+    const ci=(r.sno-1)%COLORS.length;const c=COLORS[ci];
     const util=r.budget>0?Math.min(100,r.spent/r.budget*100):0;
     const fc=util>60?'#dc2626':util>0?'#d97706':'#c7d2fe';
     const pc=util>60?'#dc2626':util>0?'#d97706':'#9298b5';
@@ -462,7 +538,7 @@ function buildTable(rows,query){
     const bt=util>60?'High spend':util>0?'Active':'No spend yet';
     const tr=document.createElement('tr');
     tr.innerHTML=`
-      <td><span class="snob" style="background:${c.bg};color:${c.color};border:1px solid ${c.border};--snob-shadow:${c.shadow}">${r.sno}</span></td>
+      <td><span class="snob" style="background:${c.bg};color:${c.color};border:1px solid ${c.border}">${r.sno}</span></td>
       <td class="name" title="${r.desc}">${r.desc}</td>
       <td class="r" style="color:#1a1d2e;font-weight:700">${INR(r.budget)}</td>
       <td class="r" style="color:#dc2626;font-weight:600">${r.spent>0?INR(r.spent):'<span style="color:#c8cede">—</span>'}</td>
@@ -471,15 +547,14 @@ function buildTable(rows,query){
       <td><span class="badge ${bc}">${bt}</span></td>`;
     tbody.appendChild(tr);
   });
-
   if(!q){
     const tb2=DATA.reduce((s,r)=>s+r.budget,0),sp2=DATA.reduce((s,r)=>s+r.spent,0),sv2=DATA.reduce((s,r)=>s+r.saved,0);
     const p2=tb2>0?sp2/tb2*100:0;
     const tr=document.createElement('tr');tr.className='total-row';
     tr.innerHTML=`<td></td><td style="font-weight:700">Grand Total — ${DATA.length} Services</td>
-      <td class="r" style="color:#2563eb;font-weight:700">${INR(tb2)}</td>
-      <td class="r" style="color:#dc2626;font-weight:700">${INR(sp2)}</td>
-      <td class="r" style="color:#059669;font-weight:700">${INR(sv2)}</td>
+      <td class="r" style="color:#2563eb">${INR(tb2)}</td>
+      <td class="r" style="color:#dc2626">${INR(sp2)}</td>
+      <td class="r" style="color:#059669">${INR(sv2)}</td>
       <td><div class="prog"><div class="ptrack"><div class="pfill" style="width:${p2.toFixed(1)}%;background:#2563eb"></div></div><span class="ppct" style="color:#2563eb">${p2.toFixed(2)}%</span></div></td>
       <td></td>`;
     tbody.appendChild(tr);
@@ -488,8 +563,8 @@ function buildTable(rows,query){
 function filterTable(q){buildTable(DATA,q);}
 
 // ── INIT ─────────────────────────────────────────────────────────
-switchState('TN');
-setInterval(()=>loadData(),5*60*1000);
+checkSession();
+setInterval(()=>{if(ACTIVE)loadData();},5*60*1000);
 </script>
 </body>
 </html>
